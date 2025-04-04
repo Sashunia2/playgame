@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрування методом Цезаря</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label, input, button {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Шифрування методом Цезаря</h1>
+
+    <label for="inputText">Введіть текст для шифрування:</label><br>
+    <textarea id="inputText"></textarea><br>
+
+    <label for="shift">Введіть величину зсуву:</label><br>
+    <input type="number" id="shift" value="3"><br>
+
+    <button onclick="encryptText()">Зашифрувати</button>
+
+    <h2>Зашифрований текст:</h2>
+    <textarea id="encryptedText" readonly></textarea>
+
+    <script>
+        function caesarCipher(text, shift) {
+            let result = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                
+                if (char.match(/[a-zA-Z]/)) {
+                    let start = char === char.toUpperCase() ? 65 : 97; // Велика чи мала буква
+                    let shiftedChar = String.fromCharCode((char.charCodeAt(0) - start + shift) % 26 + start);
+                    result += shiftedChar;
+                } else {
+                    result += char; // Не змінювати інші символи (наприклад, пробіли чи розділові знаки)
+                }
+            }
+            return result;
+        }
+
+        function encryptText() {
+            let text = document.getElementById('inputText').value;
+            let shift = parseInt(document.getElementById('shift').value);
+            let encrypted = caesarCipher(text, shift);
+            document.getElementById('encryptedText').value = encrypted;
+        }
+    </script>
+</body>
+</html>
